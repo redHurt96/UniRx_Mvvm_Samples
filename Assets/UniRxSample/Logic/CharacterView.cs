@@ -1,3 +1,4 @@
+using UniRx;
 using UnityEngine;
 
 namespace UniRxSample
@@ -9,10 +10,10 @@ namespace UniRxSample
         public void SetupModel(CharacterModel characterModel)
         {
             _characterModel = characterModel;
-            _characterModel.PositionChanged += UpdatePosition;
+            _characterModel.Position.Subscribe(UpdatePosition);
         }
 
-        private void UpdatePosition() => 
-            transform.position = _characterModel.Position;
+        private void UpdatePosition(Vector3 value) => 
+            transform.position = value;
     }
 }
