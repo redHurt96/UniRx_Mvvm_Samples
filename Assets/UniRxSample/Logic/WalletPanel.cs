@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace UniRxSample
 {
-    public class CoinsPanel : MonoBehaviour, IModelHandler
+    public class WalletPanel : MonoBehaviour, IModelHandler
     {
         [SerializeField] private Text _label;
         
@@ -13,7 +13,7 @@ namespace UniRxSample
         public void SetupModel(Model model)
         {
             _model = model;
-            _model.Coins.Subscribe(UpdateView);
+            _model.Wallet.Subscribe(UpdateView);
         }
 
         private void UpdateView(int value) => 

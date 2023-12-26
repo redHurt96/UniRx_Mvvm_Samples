@@ -7,12 +7,12 @@ namespace UniRxSample
     {
         [SerializeField] private Rigidbody _rigidbody;
         
-        private CharacterModel _characterModel;
+        private Model _model;
 
-        public void SetupModel(CharacterModel characterModel)
+        public void SetupModel(Model model)
         {
-            _characterModel = characterModel;
-            _characterModel.Position.Subscribe(UpdatePosition);
+            _model = model;
+            _model.Position.Subscribe(UpdatePosition);
         }
 
         private void UpdatePosition(Vector3 value) => 

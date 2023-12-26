@@ -3,18 +3,20 @@ using UnityEngine;
 
 namespace UniRxSample
 {
-    public class CharacterModel
+    public class Model
     {
-        public const float WORLD_SIZE = 30f;
-        public const float SPEED = 5f;
+        private const float WORLD_SIZE = 30f;
+        private const float SPEED = 8f;
 
         public ReactiveProperty<Vector3> Position { get; }
         public ReactiveProperty<int> Coins { get; }
+        public ReactiveProperty<int> Wallet { get; }
 
-        public CharacterModel()
+        public Model()
         {
             Position = new(Vector3.zero);
             Coins = new(0);
+            Wallet = new(0);
         }
 
         public void Move(Vector3 direction)
@@ -31,5 +33,14 @@ namespace UniRxSample
 
         public void AddCoin() => 
             Coins.Value++;
+
+        public void MoveToWallet()
+        {
+            if (Coins.Value > 0)
+            {
+                Coins.Value--;
+                Wallet.Value++;
+            }
+        }
     }
 }

@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace UniRxSample
 {
-    public class CharacterController
+    public class MoveController
     {
-        private readonly CharacterModel _model;
+        private readonly Model _model;
 
-        public CharacterController(CharacterModel model) => 
+        public MoveController(Model model) => 
             _model = model;
 
         public void Update()

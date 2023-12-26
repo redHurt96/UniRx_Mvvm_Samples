@@ -10,21 +10,25 @@ namespace UniRxSample
         
         [SerializeField] private GameObject _view;
         [SerializeField] private CoinsPanel _coinsPanel;
+        [SerializeField] private WalletPanel _walletPanel;
+        [SerializeField] private SpendPoint _spendPoint;
 
-        private CharacterController _controller;
+        private MoveController _controller;
         private CoinsSpawner _coinsSpawner;
         private float _spawnTime;
 
         private void Start()
         {
-            CharacterModel characterModel = new();
+            Model model = new();
             _coinsSpawner = new();
-            _controller = new(characterModel);
+            _controller = new(model);
 
             foreach (IModelHandler modelHandler in _view.GetComponents<IModelHandler>())
-                modelHandler.SetupModel(characterModel);
+                modelHandler.SetupModel(model);
             
-            _coinsPanel.SetupModel(characterModel);
+            _coinsPanel.SetupModel(model);
+            _walletPanel.SetupModel(model);
+            _spendPoint.SetupModel(model);
             _spawnTime = SPAWN_TIME;
         }
 

@@ -2,6 +2,6 @@ namespace UniRxSample
 {
     public interface IModelHandler
     {
-        void SetupModel(CharacterModel characterModel);
+        void SetupModel(Model model);
     }
 }

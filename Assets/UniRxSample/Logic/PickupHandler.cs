@@ -4,15 +4,18 @@ namespace UniRxSample
 {
     public class PickupHandler : MonoBehaviour, IModelHandler
     {
-        private CharacterModel _characterModel;
+        private Model _model;
 
-        public void SetupModel(CharacterModel characterModel) => 
-            _characterModel = characterModel;
+        public void SetupModel(Model model) => 
+            _model = model;
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out PickupView _))
-                _characterModel.AddCoin();
+            if (other.TryGetComponent(out PickupView pickupView))
+            {
+                _model.AddCoin();
+                Destroy(pickupView.gameObject);
+            }
         }
     }
 }
