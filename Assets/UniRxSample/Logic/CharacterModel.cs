@@ -1,4 +1,3 @@
-using System;
 using UniRx;
 using UnityEngine;
 
@@ -10,10 +9,12 @@ namespace UniRxSample
         public const float SPEED = 5f;
 
         public ReactiveProperty<Vector3> Position { get; }
+        public ReactiveProperty<int> Coins { get; }
 
         public CharacterModel()
         {
             Position = new(Vector3.zero);
+            Coins = new(0);
         }
 
         public void Move(Vector3 direction)
@@ -27,5 +28,8 @@ namespace UniRxSample
                 Position.Value = desiredPosition;
             }
         }
+
+        public void AddCoin() => 
+            Coins.Value++;
     }
 }

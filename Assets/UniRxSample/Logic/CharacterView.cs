@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace UniRxSample
 {
-    public class CharacterView : MonoBehaviour
+    public class CharacterView : MonoBehaviour, IModelHandler
     {
+        [SerializeField] private Rigidbody _rigidbody;
+        
         private CharacterModel _characterModel;
 
         public void SetupModel(CharacterModel characterModel)
@@ -14,6 +16,6 @@ namespace UniRxSample
         }
 
         private void UpdatePosition(Vector3 value) => 
-            transform.position = value;
+            _rigidbody.MovePosition(value);
     }
 }
