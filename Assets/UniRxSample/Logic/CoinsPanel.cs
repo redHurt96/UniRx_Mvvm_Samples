@@ -1,4 +1,3 @@
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,10 +12,13 @@ namespace UniRxSample
         public void SetupModel(Model model)
         {
             _model = model;
-            _model.Coins.Subscribe(UpdateView);
+            _model.Updated += UpdateView;
         }
 
-        private void UpdateView(int value) => 
-            _label.text = value.ToString();
+        private void OnDestroy() => 
+            _model.Updated -= UpdateView;
+
+        private void UpdateView() => 
+            _label.text = _model.Coins.ToString();
     }
 }

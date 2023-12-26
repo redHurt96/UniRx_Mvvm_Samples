@@ -1,3 +1,4 @@
+using System;
 using UniRx;
 using UnityEngine;
 
@@ -8,38 +9,38 @@ namespace UniRxSample
         private const float WORLD_SIZE = 30f;
         private const float SPEED = 8f;
 
-        public ReactiveProperty<Vector3> Position { get; }
-        public ReactiveProperty<int> Coins { get; }
-        public ReactiveProperty<int> Wallet { get; }
-
-        public Model()
-        {
-            Position = new(Vector3.zero);
-            Coins = new(0);
-            Wallet = new(0);
-        }
+        public event Action Updated;
+        
+        public Vector3 Position { get; private set; }
+        public int Coins { get; private set; }
+        public int Wallet { get; private set; }
 
         public void Move(Vector3 direction)
         {
             Vector3 delta = SPEED * Time.deltaTime * direction;
-            Vector3 desiredPosition = Position.Value + delta;
+            Vector3 desiredPosition = Position + delta;
 
             if (Mathf.Abs(desiredPosition.x) < WORLD_SIZE
                 && Mathf.Abs(desiredPosition.z) < WORLD_SIZE)
             {
-                Position.Value = desiredPosition;
+                Position = desiredPosition;
+                Updated?.Invoke();
             }
         }
 
-        public void AddCoin() => 
-            Coins.Value++;
+        public void AddCoin()
+        {
+            Coins++;
+            Updated?.Invoke();
+        }
 
         public void MoveToWallet()
         {
-            if (Coins.Value > 0)
+            if (Coins > 0)
             {
-                Coins.Value--;
-                Wallet.Value++;
+                Coins--;
+                Wallet++;
+                Updated?.Invoke();
             }
         }
     }

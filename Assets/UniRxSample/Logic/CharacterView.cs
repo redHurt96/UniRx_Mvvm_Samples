@@ -1,4 +1,3 @@
-using UniRx;
 using UnityEngine;
 
 namespace UniRxSample
@@ -12,10 +11,13 @@ namespace UniRxSample
         public void SetupModel(Model model)
         {
             _model = model;
-            _model.Position.Subscribe(UpdatePosition);
+            _model.Updated += UpdatePosition;
         }
 
-        private void UpdatePosition(Vector3 value) => 
-            _rigidbody.MovePosition(value);
+        private void OnDestroy() => 
+            _model.Updated -= UpdatePosition;
+
+        private void UpdatePosition() => 
+            _rigidbody.MovePosition(_model.Position);
     }
 }

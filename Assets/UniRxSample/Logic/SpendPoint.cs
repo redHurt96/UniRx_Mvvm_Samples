@@ -31,7 +31,7 @@ namespace UniRxSample
 
             _spendCooldown = Max(_spendCooldown - deltaTime, 0f);
 
-            if (Approximately(_spendCooldown, 0f) && _model.Coins.Value > 0)
+            if (Approximately(_spendCooldown, 0f) && _model.Coins > 0)
             {
                 _model.MoveToWallet();
                 _spendCooldown = SPEND_TIME;
