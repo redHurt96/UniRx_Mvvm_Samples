@@ -13,7 +13,7 @@ namespace UniRxSample
         public void SetupModel(Model model)
         {
             _model = model;
-            _model.Coins.Subscribe(UpdateView);
+            _model.Coins.Subscribe(UpdateView).AddTo(this);
         }
 
         private void UpdateView(int value) => 

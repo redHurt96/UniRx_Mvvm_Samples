@@ -1,6 +1,6 @@
+using System;
+using UniRx;
 using UnityEngine;
-using static UnityEngine.Mathf;
-using static UnityEngine.Time;
 
 namespace UniRxSample
 {
@@ -15,7 +15,8 @@ namespace UniRxSample
 
         private MoveController _controller;
         private CoinsSpawner _coinsSpawner;
-        private float _spawnTime;
+        
+        private readonly CompositeDisposable _disposable = new();
 
         private void Start()
         {
@@ -29,24 +30,20 @@ namespace UniRxSample
             _coinsPanel.SetupModel(model);
             _walletPanel.SetupModel(model);
             _spendPoint.SetupModel(model);
-            _spawnTime = SPAWN_TIME;
+
+            Observable.EveryUpdate()
+                .Subscribe(_ => _controller.Update())
+                .AddTo(_disposable);
+            
+            Observable
+                .Interval(TimeSpan.FromSeconds(SPAWN_TIME))
+                .Subscribe(_ => _coinsSpawner.Spawn())
+                .AddTo(_disposable);
         }
 
-        private void Update()
+        private void OnDestroy()
         {
-            _controller.Update();
-            UpdateSpawner();
-        }
-
-        private void UpdateSpawner()
-        {
-            _spawnTime = Max(_spawnTime - deltaTime, 0f);
-
-            if (Approximately(_spawnTime, 0f))
-            {
-                _coinsSpawner.Spawn();
-                _spawnTime = SPAWN_TIME;
-            }
+            _disposable.Dispose();
         }
     }
 }
